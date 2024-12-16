@@ -6,8 +6,23 @@ from fastapi import FastAPI, HTTPException
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (or specify a list of allowed origins)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
+@app.get("/")
+def read_root():
+    return {"message": "CORS is enabled!"}
 
 # Database Configuration
 DATABASE_URL = "postgresql://postgres:root@localhost/lv"
